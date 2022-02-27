@@ -1,3 +1,5 @@
+.cnab/
+
 # Local .terraform directories
 **/.terraform/*
 
