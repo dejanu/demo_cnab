@@ -19,7 +19,8 @@ porter build
 ```
 * Use azure:
 ```bash
-
+# installing CNAB azure driver .bashrc updated added cnab-azure-driver dir to path
+# Installed  cnab-azure version:v0.0.9-c3fac30
 curl https://raw.githubusercontent.com/deislabs/cnab-azure-driver/main/install-in-azure-cloudshell.sh |/bin/bash
 source .bashrc
 ```
