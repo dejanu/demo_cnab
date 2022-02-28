@@ -10,8 +10,10 @@ https://portal.azure.com/#home
 # get k8s cluster credentials .kube/config
 az aks get-credentials --resource-group <resourge_group_name> --name <cluster-name>
 
-#login 
-# username for a service principal is its Application is (client) ID
+# create service principal app_name in AAD + https://stackoverflow.com/questions/55457349/service-principal-az-cli-login-failing-no-subscriptions-found
+az ad sp create-for-rbac -n <app_name>
+
+# login using sp - username for a service principal is its Application is (client) ID
 az login --output json --password <service_principal_password> --service-principal --tenant <AAD_tenant> --username <service_principal>
 
 ```
