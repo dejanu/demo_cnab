@@ -74,7 +74,8 @@ porter install --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest -d azur
 porter install --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest --cred aks-aad-oauth-proxy -d azure --param aad_application_name=myapp --param aad_application_secret=53cret! --param fqdn=myapp.microsoft.com
 ```
 
-
+```bash
+# install bundle quick
 porter install --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest \
 -c aks \
 --param azure_location=eastus \
@@ -86,7 +87,7 @@ porter install --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest \
 --param resource_group=demorg \
 --param vm_set_type=VirtualMachineScaleSets \
 -d azure
-
+```
 Params:
 
 aad_application_name     Name for the Azure AD application that will be created  
