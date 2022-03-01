@@ -1,10 +1,10 @@
 []: # Language: markdown
 
-# Azure portal
+## Azure portal
 
 https://portal.azure.com/#home
 
-# AZ client
+## AZ client
 
 ```bash
 # get k8s cluster credentials .kube/config
