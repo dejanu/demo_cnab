@@ -1,5 +1,7 @@
 .cnab/
 
+les_vars.sh
+
 # Local .terraform directories
 **/.terraform/*
 

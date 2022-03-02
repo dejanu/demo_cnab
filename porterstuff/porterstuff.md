@@ -4,7 +4,10 @@
 * Install porter:
 ```bash
 curl -L https://cdn.porter.sh/latest/install-linux.sh | bash
-export PATH=$PATH:~/.porter
+
+# porter home
+export PORTER_HOME=~/.porter
+export PATH=$PORTER_HOME:$PATH
 ```
 * Create and build bundle:
 
