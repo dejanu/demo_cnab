@@ -1,0 +1,54 @@
+name: balenutsa
+version: 0.1.2
+description: "Docker whale care are params"
+registry: dejanualex
+
+required:
+  - docker
+
+parameters:
+  - name: msg
+    description: Mesajul balenutzei
+    type: string
+    default: "suuuuup"
+    applyTo:
+      - say
+
+mixins:
+  - docker
+
+install:
+  - docker:
+      run:
+        image: "docker/whalesay:latest"
+        rm: true
+        arguments:
+          - cowsay
+          - Hello World
+      
+upgrade:
+  - docker:
+      run:
+        image: "docker/whalesay:latest"
+        rm: true
+        arguments:
+          - cowsay
+          - World 2.0
+
+say:
+  - docker:
+      run:
+        image: "docker/whalesay:latest"
+        rm: true
+        arguments:
+          - cowsay
+          - "{{ bundle.parameters.msg }}"
+
+uninstall:
+  - docker:
+      run:
+        image: "docker/whalesay:latest"
+        rm: true
+        arguments:
+          - cowsay
+          - Goodbye World
