@@ -16,6 +16,10 @@ az ad sp create-for-rbac -n <app_name>
 # login using sp - username for a service principal is its Application is (client) ID
 az login --output json --password <service_principal_password> --service-principal --tenant <AAD_tenant> --username <service_principal>
 
+# azure container registry
+az acr login --name dejanualex.azurecr.io
+docker tag mcr.microsoft.com/hello-world <mycontainerregistry>.azurecr.io/hello-world:v1
+docker tag dejanualex/aks:v0.1.4 dejanualex.azurecr.io/aks:v0.1.4
 ```
 
 ```bash
