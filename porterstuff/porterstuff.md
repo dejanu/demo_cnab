@@ -9,8 +9,8 @@ curl -L https://cdn.porter.sh/latest/install-linux.sh | bash
 export PORTER_HOME=~/.porter
 export PATH=$PORTER_HOME:$PATH
 ```
-* Create and build bundle:
 
+* Create and build bundle:
 ```bash
 # Create a bundle. This generates a porter bundle in the current directory.
 porter create --help
@@ -29,7 +29,6 @@ source .bashrc
 ```
 
 * Mixins and Plugins:
-
 ```bash
 
 ### MIXINS are the building blocks that you use when authoring bundles
@@ -95,7 +94,7 @@ porter install --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest \
 --param resource_group=demorg \
 --param vm_set_type=VirtualMachineScaleSets \
 -d azure
-```
+
 Params:
 
 aad_application_name     Name for the Azure AD application that will be created  
@@ -113,7 +112,7 @@ tls_secret_name          Name for TLS secret for oauth2-proxy ingress
 --param namespace=aad-oauth2-proxy \
 --param porter-debug=false \
 --param tls_secret_name=oauth2-proxy.tls 
--------------------------------------------------------------------------------------------------------------------------------------------------
+
 azure_location       The Azure location to create the resources in   
 cluster_name         The name to use for the AKS Cluster                             
 kubernetes_version   The Kubernetes version to use (default 1.16.7)               
@@ -131,3 +130,4 @@ vm_set_type          Agent pool VM set type   (default    VirtualMachineScaleSet
 --param porter-debug=false \
 --param resource_group=demorg \
 --param vm_set_type=VirtualMachineScaleSets
+```
