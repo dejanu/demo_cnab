@@ -34,6 +34,10 @@ source .bashrc
 
 ### MIXINS are the building blocks that you use when authoring bundles
 
+# porter mixins install NAME [flags]
+porter mixins install docker
+porter mixins list
+
 # mixins command: build, install, upgrade
 porter mixin install terraform
 
