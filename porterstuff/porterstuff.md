@@ -30,7 +30,6 @@ source .bashrc
 
 * Mixins and Plugins:
 ```bash
-
 ### MIXINS are the building blocks that you use when authoring bundles
 
 # porter mixins install NAME [flags]
@@ -130,4 +129,14 @@ vm_set_type          Agent pool VM set type   (default    VirtualMachineScaleSet
 --param porter-debug=false \
 --param resource_group=demorg \
 --param vm_set_type=VirtualMachineScaleSets
+```
+
+* Check bundles:
+
+```bash
+# list bundles
+porter list
+
+# check bundle usage
+porter explain --reference registry/bundle:version
 ```
