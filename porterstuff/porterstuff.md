@@ -14,7 +14,6 @@ export PATH=$PORTER_HOME:$PATH
 ```bash
 # Create a bundle. This generates a porter bundle in the current directory.
 porter create --help
-porter create
 
 # Builds the bundle in the current directory by generating a Dockerfile 
 # and a CNAB bundle.json, and then building the invocation image.
@@ -33,10 +32,9 @@ source .bashrc
 ### MIXINS are the building blocks that you use when authoring bundles
 
 # porter mixins install NAME [flags]
+# mixins command: build, install, upgrade
 porter mixins install docker
 porter mixins list
-
-# mixins command: build, install, upgrade
 porter mixin install terraform
 
 ----------------------------
@@ -48,12 +46,12 @@ porter plugins list
 
 #install azure plugin
 porter plugin install azure
-
 ```
 
 * Resources:
 
-- https://github.com/Azure/azure-cnab-quickstarts
+- [Main repo](https://github.com/Azure/azure-cnab-quickstarts)
+- [Quickstarts List](https://github.com/Azure/azure-cnab-quickstarts/blob/main/porter/TOC.md)
 - https://porter.sh/mixins/terraform/
 - https://www.youtube.com/watch?v=LxRvKg3egPc
 - https://tanzu.vmware.com/content/blog/cloud-native-application-bundles-a-simple-way-to-install-software-on-kubernetes-or-any-other-runtime
@@ -67,7 +65,7 @@ porter explain --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest
 
 # if bundle requires credentials, you must generate a credentials file with the required values.
 porter credentials generate --tag cnabquickstarts.azurecr.io/porter/<quickstart-name>/bundle:<quickstart-version>
-porter credentials generate --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest
+porter credentials generate --reference cnabquickstarts.azurecr.io/porter/aks/bundle:latest
 
 # credentials example bundle requires credential for azure_client_id
 # Credentials are never stored by Porter - https://porter.sh/quickstart/credentials/
@@ -82,7 +80,7 @@ porter install --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest --cred 
 
 ```bash
 # install bundle quick
-porter install --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest \
+porter install --reference cnabquickstarts.azurecr.io/porter/aks/bundle:latest \
 -c aks \
 --param azure_location=eastus \
 --param cluster_name=democluster \

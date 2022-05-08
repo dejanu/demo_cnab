@@ -3,7 +3,6 @@
 # install azure cnab driver
 curl https://raw.githubusercontent.com/deislabs/cnab-azure-driver/main/install-in-azure-cloudshell.sh |/bin/bash
 
-
 # how to use the bundle
 porter explain --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest
 
