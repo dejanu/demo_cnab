@@ -10,6 +10,7 @@ export PORTER_HOME=~/.porter
 export PATH=$PORTER_HOME:$PATH
 ```
 
+
 * Create and build bundle:
 ```bash
 # Create a bundle. This generates a porter bundle in the current directory.
@@ -72,61 +73,9 @@ porter credentials generate --reference cnabquickstarts.azurecr.io/porter/aks/bu
 # Credentials can be specified using --cred <path-to-creds-file> or --cred <credentials_set_name>
 porter credentials list
 
-# install bundle with required params
-porter install --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest -d azure -c 
+# install bundle with required params and credentials
 
-porter install --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest --cred aks-aad-oauth-proxy -d azure --param aad_application_name=myapp --param aad_application_secret=53cret! --param fqdn=myapp.microsoft.com
-```
-
-```bash
-# install bundle quick
-porter install --reference cnabquickstarts.azurecr.io/porter/aks/bundle:latest \
--c aks \
---param azure_location=eastus \
---param cluster_name=democluster \
---param kubernetes_version=1.20.13 \
---param node_count=2 \
---param node_vm_size=Standard_D2s_v3 \
---param porter-debug=false \
---param resource_group=demorg \
---param vm_set_type=VirtualMachineScaleSets \
--d azure
-
-Params:
-
-aad_application_name     Name for the Azure AD application that will be created  
-aad_application_secret   Secret (password) for the Azure AD application that will be created       
-fqdn                     Fully qualified domain name                                           
-ingress_class            The type of ingress controller to use for the proxy ingress   (default nginx)              
-namespace                Kubernetes namespace for installation                                 
-porter-debug             Print debug information from Porter when executing the bundle            
-tls_secret_name          Name for TLS secret for oauth2-proxy ingress     
-
---param aad_application_name=demoapp \
---param aad_application_secret=53cret! \
---param fqdn=demoapp.microsoft.com \
---param ingress_class=ngnix \
---param namespace=aad-oauth2-proxy \
---param porter-debug=false \
---param tls_secret_name=oauth2-proxy.tls 
-
-azure_location       The Azure location to create the resources in   
-cluster_name         The name to use for the AKS Cluster                             
-kubernetes_version   The Kubernetes version to use (default 1.16.7)               
-node_count           The VM size to use for the cluster (default 4)                     
-node_vm_size         The VM size to use for the cluster (default Standard_D8s_v3)
-porter-debug         Print debug information from Porter when executing the bundle  (default false )  
-resource_group       The name of the resource group to create the AKS Cluster in     
-vm_set_type          Agent pool VM set type   (default    VirtualMachineScaleSets)
-
---param azure_location=eastus \
---param cluster_name=democluster \
---param kubernetes_version=1.20.13 \
---param node_count=2 \
---param node_vm_size=Standard_D2s_v3 \
---param porter-debug=false \
---param resource_group=demorg \
---param vm_set_type=VirtualMachineScaleSets
+porter install --reference cnabquickstarts.azurecr.io/porter/aks/bundle:latest -c aks --param azure_location=westeurope --param cluster_name=democluster --param kubernetes_version=1.21.9 --param node_count=2 --param node_vm_size=standard_d2as_v5 --param porter-debug=false --param resource_group=demorg --param vm_set_type=VirtualMachineScaleSets -d azure
 ```
 
 * Check bundles:
@@ -138,3 +87,4 @@ porter list
 # check bundle usage
 porter explain --reference registry/bundle:version
 ```
+
