@@ -3,30 +3,59 @@
 
 * Install porter:
 ```bash
+# install porter
 curl -L https://cdn.porter.sh/latest/install-linux.sh | bash
 
 # porter home
 export PORTER_HOME=~/.porter
 export PATH=$PORTER_HOME:$PATH
-```
 
+# installing CNAB azure driver .bashrc updated added cnab-azure-driver dir to path
+# Installed  cnab-azure version:v0.0.9-c3fac30
+curl https://raw.githubusercontent.com/deislabs/cnab-azure-driver/main/install-in-azure-cloudshell.sh |/bin/bash
+source .bashrc
+
+# check params and credentials used by bundle
+porter explain --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest
+
+# if bundle requires credentials, you must delete/edit/generate/list/show a credentials file with the required values.
+porter credentials generate --reference cnabquickstarts.azurecr.io/porter/aks/bundle:latest
+porter credentials list
+
+# store the creds
+porter credentials show aks --output json > aks-creds.json
+
+# Credentials can be specified using --cred <path-to-creds-file> or --cred <credentials_set_name>
+porter install --reference cnabquickstarts.azurecr.io/porter/aks/bundle:latest -c ./aks-creds.json
+
+# install bundle in Azure with required params and credentials
+porter install --reference cnabquickstarts.azurecr.io/porter/aks/bundle:latest -c aks --param azure_location=westeurope --param cluster_name=democluster --param kubernetes_version=1.21.9 --param node_count=2 --param node_vm_size=standard_d2as_v5 --param porter-debug=false --param resource_group=demorg --param vm_set_type=VirtualMachineScaleSets -d azure
+
+# login to cluster
+az aks get-credentials --resource-group <resourge_group_name> --name <cluster-name>
+
+```
+---
 
 * Create and build bundle:
 ```bash
 # Create a bundle. This generates a porter bundle in the current directory.
 porter create --help
 
-# Builds the bundle in the current directory by generating a Dockerfile 
-# and a CNAB bundle.json, and then building the invocation image.
-porter build
+# Builds the bundle in the current directory generates Dockerfile and a CNAB bundle.json, and then building the invocation image
+ porter build
+
+# The v1 prerelease of porter has fixed the behavior you are seeing. Otherwise if you are using v0.38 then you should expect to need two repositories per bundle (one for the bundle and one for the bundle’s container)
+porter --version
+
+# List bundles
+porter list
+
+# check bundle usage
+porter explain --reference registry/bundle:version
+
 ```
-* Use azure:
-```bash
-# installing CNAB azure driver .bashrc updated added cnab-azure-driver dir to path
-# Installed  cnab-azure version:v0.0.9-c3fac30
-curl https://raw.githubusercontent.com/deislabs/cnab-azure-driver/main/install-in-azure-cloudshell.sh |/bin/bash
-source .bashrc
-```
+---
 
 * Mixins and Plugins:
 ```bash
@@ -35,8 +64,8 @@ source .bashrc
 # porter mixins install NAME [flags]
 # mixins command: build, install, upgrade
 porter mixins install docker
-porter mixins list
 porter mixin install terraform
+porter mixins list
 
 ----------------------------
 ## PLUGINS extend the porter client, by reimplementing porter's default functionality 
@@ -58,33 +87,4 @@ porter plugin install azure
 - https://tanzu.vmware.com/content/blog/cloud-native-application-bundles-a-simple-way-to-install-software-on-kubernetes-or-any-other-runtime
 - https://www.youtube.com/watch?v=1FGMrv_xfqY&t=8s
 
-* Porter in az shell:
-
-```bash
-# check params and credentials used by bundle
-porter explain --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest
-
-# if bundle requires credentials, you must generate a credentials file with the required values.
-porter credentials generate --tag cnabquickstarts.azurecr.io/porter/<quickstart-name>/bundle:<quickstart-version>
-porter credentials generate --reference cnabquickstarts.azurecr.io/porter/aks/bundle:latest
-
-# credentials example bundle requires credential for azure_client_id
-# Credentials are never stored by Porter - https://porter.sh/quickstart/credentials/
-# Credentials can be specified using --cred <path-to-creds-file> or --cred <credentials_set_name>
-porter credentials list
-
-# install bundle with required params and credentials
-
-porter install --reference cnabquickstarts.azurecr.io/porter/aks/bundle:latest -c aks --param azure_location=westeurope --param cluster_name=democluster --param kubernetes_version=1.21.9 --param node_count=2 --param node_vm_size=standard_d2as_v5 --param porter-debug=false --param resource_group=demorg --param vm_set_type=VirtualMachineScaleSets -d azure
-```
-
-* Check bundles:
-
-```bash
-# list bundles
-porter list
-
-# check bundle usage
-porter explain --reference registry/bundle:version
-```
 

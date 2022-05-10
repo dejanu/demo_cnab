@@ -70,7 +70,5 @@ export azure_client_id="8a1d9918-ef2b-4070-aebf-bbe2d48395fd"
 export azure_client_secret="2g-yo8bS8ZR1B5gUkPWfcIYu77ozT.ec7K"
 # directoryID
 export azure_tenant_id="7f6211b1-7c5c-4277-8403-c0ccbd7f0408"
-
-
 ```
 
