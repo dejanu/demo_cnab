@@ -20,6 +20,8 @@
 
 ## AZ client
 
+* Service Principal:
+
 ```bash
 # list service principals
 az ad sp list --query "[].{id:id,name:displayName}" --show-mine
@@ -31,13 +33,15 @@ az ad sp create-for-rbac --name demoSVP --role contributor --scopes /subscriptio
 # login using sp - username for a service principal is its Application is (client) ID
 az login --output json --password <service_principal_password> --service-principal --tenant <AAD_tenant> --username <service_principal>
 
-# reset credentials for service principal will output to STDOUT the new creadentials
-az ad sp credential reset --name alexSVP
+# reset credentials for service principal will output to STDOUT the new credentials
+az ad sp credential reset --name demoSVP
 
 # assign role to SVP
 az role assignment create --assignee "object_id" --role "contributor"
 ```
 --
+
+* AKS:
 
 ```bash
 # azure container registry
@@ -47,12 +51,11 @@ docker tag dejanualex/aks:v0.1.4 dejanualex.azurecr.io/aks:v0.1.4
 
 # get k8s cluster credentials .kube/config
 az aks get-credentials --resource-group <resourge_group_name> --name <cluster-name>
-```
 
-```bash
 # get list of supported Azure Locations: westus,westus2,eastus,centralus northeurope,westeurope
 az aks get-versions --location westeurope -o table
 ```
+---
 
 ```bash
 # demoSVP

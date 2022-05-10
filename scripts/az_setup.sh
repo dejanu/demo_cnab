@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# setup for azure environment
+# SETUP FOR AZURE
 
 # check if .bashrc file exists and if yes source it
 if [ -f ~/.bashrc ]; then
