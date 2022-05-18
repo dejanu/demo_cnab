@@ -11,3 +11,12 @@ Every deplyment is a snowflake
 - [Terraform](/terraformstuff/tf.md)
 - [Porter](/porterstuff/porterstuff.md)
 - [Whalesay](porterstuff/porter_whale/whalesay.md)
+
+### Documentation:
+
+- [Microsoft CNAB](https://docs.microsoft.com/en-us/dotnet/architecture/cloud-native/application-bundles)
+
+* Nice links:
+https://book.kubebuilder.io/
+clear
+https://opensource.com/article/17/7/how-linux-containers-evolved

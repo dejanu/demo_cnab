@@ -1,0 +1,54 @@
+name: bundlesay
+version: 0.1.3
+description: "Docker Whale with params"
+registry: dejanualex
+
+required:
+  - docker
+
+parameters:
+  - name: msg
+    description: Message to say
+    type: string
+    default: "suuuuup"
+    applyTo:
+      - say
+
+mixins:
+  - docker
+
+install:
+  - docker:
+      run:
+        image: "dejanualex/dockersay:1.0"
+        rm: true
+        arguments:
+          - cowsay
+          - Hello World
+      
+upgrade:
+  - docker:
+      run:
+        image: "dejanualex/dockersay:1.0"
+        rm: true
+        arguments:
+          - cowsay
+          - World 2.0
+
+say:
+  - docker:
+      run:
+        image: "dejanualex/dockersay:1.0"
+        rm: true
+        arguments:
+          - cowsay
+          - "{{ bundle.parameters.msg }}"
+
+uninstall:
+  - docker:
+      run:
+        image: "dejanualex/dockersay:1.0"
+        rm: true
+        arguments:
+          - cowsay
+          - Goodbye World
