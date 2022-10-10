@@ -2,23 +2,30 @@
 
 ## Azure
 
-* [portal](https://portal.azure.com/#home)
+🖱️ [Azure portal](https://portal.azure.com/#home)
 
-* [VM Sizing and pricing](https://azureprice.net/?currency=EUR&region=westeurope&timeoption=hour)
-    * nice feature like Accelerated Networking enabled
+✔️ [Check Azure status](https://status.azure.com/en-us/status)
+
+✔️ [New Azure status](https://azure.status.microsoft/en-us/status)
+
+✔️ [Azure VM Sizing and pricing](https://azureprice.net/)
+
+✔️ [Product availability by region](https://azure.microsoft.com/en-us/explore/global-infrastructure/products-by-region/)
+
+✔️ [Azure Region Scope](https://azurecharts.com/instances)
+
+---
+
+### Links
 
 * [Quotas](https://docs.microsoft.com/en-us/azure/aks/quotas-skus-regions)
     * VM sizes with less than 2 CPUs may not be used with AKS
     * AKS release notes: https://github.com/Azure/AKS/releases
 
-* Product availability by region [VM availability](https://azure.microsoft.com/en-us/global-infrastructure/services/?regions=europe-north,europe-west&products=virtual-machines)    
-
-* [Azure Region Scope](https://azurecharts.com/instances)
-
 * [Create SVP yt](https://www.youtube.com/watch?v=Kf1Tai_BkWU)
 * [StackOverflow_post](https://stackoverflow.com/questions/55457349/service-principal-az-cli-login-failing-no-subscriptions-found)
 
-## AZ client
+### AZ CLI
 
 * Service Principal:
 
