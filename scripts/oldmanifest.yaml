@@ -1,7 +1,17 @@
-name: balenutsa
-version: 0.1.3
-description: "Docker whale care are params"
-registry: dejanualex
+# Version of the porter.yaml schema used by this file.
+schemaVersion: 1.0.0
+
+# Name of the bundle
+name: devwork
+
+# Version of the bundle. Change this each time you modify a published bundle.
+version: 1.0.0
+
+# Description of the bundle and what it does.
+description: "An example Porter configuration"
+
+# Registry where the bundle is published to by default
+registry: "dejanualex"
 
 required:
   - docker
@@ -20,59 +30,12 @@ mixins:
 install:
   - docker:
       run:
-        image: "docker/whalesay:latest"
+        image: "dejanualex/dockersay:1.0"
         rm: true
         arguments:
           - cowsay
           - Hello World
-      
-upgrade:
-  - docker:
-      run:
-        image: "docker/whalesay:latest"
-        rm: true
-        arguments:
-          - cowsay
-          - World 2.0
 
-say:
-  - docker:
-      run:
-        image: "docker/whalesay:latest"
-        rm: true
-        arguments:
-          - cowsay
-          - "{{ bundle.parameters.msg }}"
-
-uninstall:
-  - docker:name: bundlesay
-version: 0.1.2
-description: "Docker whale with params"
-registry: dejanualex
-
-required:
-  - docker
-
-parameters:
-  - name: msg
-    description: Mesajul balenutzei
-    type: string
-    default: "suuuuup"
-    applyTo:
-      - say
-
-mixins:
-  - docker
-
-install:
-  - docker:
-      run:
-        image: "dejanualex/dockersay:1.0"
-        rm: true
-        arguments:
-          - cowsay
-          - Hello CodeCamp
-      
 upgrade:
   - docker:
       run:
@@ -95,12 +58,6 @@ uninstall:
   - docker:
       run:
         image: "dejanualex/dockersay:1.0"
-        rm: true
-        arguments:
-          - cowsay
-          - Goodbye Codecamp
-      run:
-        image: "docker/whalesay:latest"
         rm: true
         arguments:
           - cowsay

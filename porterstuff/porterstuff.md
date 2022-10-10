@@ -5,6 +5,7 @@
 ```bash
 # install porter
 curl -L https://cdn.porter.sh/latest/install-linux.sh | bash
+curl -L https://cdn.porter.sh/latest/install-mac.sh | bash
 
 # porter home
 export PORTER_HOME=~/.porter
