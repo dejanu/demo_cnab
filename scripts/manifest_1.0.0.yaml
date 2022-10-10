@@ -13,6 +13,10 @@ description: "An example Porter configuration"
 # Registry where the bundle is published to by default
 registry: "REGISTRYNAME"
 
+# If you want to customize the Dockerfile in use, uncomment the line below and update the referenced file. 
+# See https://getporter.org/bundle/custom-dockerfile/
+#dockerfile: template.Dockerfile
+
 required:
   - docker
 
