@@ -18,11 +18,11 @@ porter install --allow-docker-host-access
 porter uninstall --allow-docker-host-access
 porter invoke --action=say --param msg="Devafterwork" --allow-docker-host-access
 
-#distribute bundle using semantic version # dejanualex/devafterdemo:v1.0.0
+# distribute bundle using semantic version # dejanualex/devafterdemo:v1.0.0
 porter publish
-porter explain --reference dejanualex/devafterdemo:v1.0.0
-porter install --reference dejanualex/devafterdemo:v1.0.0
-porter invoke --action=say --param msg="Devafterwork" --reference dejanualex/devafterdemo:v1.0.0
+porter explain --reference <MANIFEST>
+porter install --reference <MANIFEST>
+porter invoke --action=say --param msg="Devafterwork" --reference <MANIFEST>
 ```
 
 * Links:

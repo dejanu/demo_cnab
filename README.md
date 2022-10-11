@@ -1,6 +1,8 @@
 ## Repo for demo
 
-Every deplyment is a snowflake
+_Every deplyment is a snowflake_
+
+### Links:
 
 - [dockerhub](https://hub.docker.com/repositories)
 - [Azure portal](https://portal.azure.com/#home)
