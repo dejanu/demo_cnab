@@ -117,5 +117,6 @@ porter uninstall --reference getporter/whalesay:v0.1.2 --allow-docker-host-acces
 - [Terraform CNAB](https://www.youtube.com/watch?v=LxRvKg3egPc)
 - [Tanzu CNAB](https://tanzu.vmware.com/content/blog/cloud-native-application-bundles-a-simple-way-to-install-software-on-kubernetes-or-any-other-runtime)
 - [CNAB_Webinar](https://www.youtube.com/watch?v=1FGMrv_xfqY&t=8s)
+- [Porter boiler plate](https://github.com/getporter/examples/)
 
 
