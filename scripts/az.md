@@ -68,8 +68,8 @@ az aks get-versions --location westeurope -o table
 # demoSVP
 {
   "appId": "8a1d9918-ef2b-4070-aebf-bbe2d48395fd",
-  "displayName": "demoSVP",
-  "password": "2g-yo8bS8ZR1B5gUkPWfcIYu77ozT.ec7K",
+  "name": "demoSVP",
+  "password": "duFa5jmcV~nfXzOsw38ZrOADgWND_9bp4l",
   "tenant": "7f6211b1-7c5c-4277-8403-c0ccbd7f0408"
 }
 
@@ -77,7 +77,7 @@ export SubscriptionID="3e053c67-dd5c-4904-8ecb-5af26418d771"
 # AppID
 export azure_client_id="8a1d9918-ef2b-4070-aebf-bbe2d48395fd"
 # clientPassword
-export azure_client_secret="2g-yo8bS8ZR1B5gUkPWfcIYu77ozT.ec7K"
+export azure_client_secret="duFa5jmcV~nfXzOsw38ZrOADgWND_9bp4l"
 # directoryID
 export azure_tenant_id="7f6211b1-7c5c-4277-8403-c0ccbd7f0408"
 ```

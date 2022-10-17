@@ -11,7 +11,7 @@ schemaVersion: 1.0.0
 name: azurevm
 
 # Version of the bundle. Change this each time you modify a published bundle.
-version: 0.1.0
+version: 1.0.0
 
 # Description of the bundle and what it does.
 description: "A bundle for creating VMs in Azure"
@@ -22,6 +22,21 @@ registry: "dejanualex"
 # If you want to customize the Dockerfile in use, uncomment the line below and update the referenced file. 
 # See https://getporter.org/bundle/custom-dockerfile/
 #dockerfile: template.Dockerfile
+
+credentials:
+- name: azure_client_id
+  env: AZURE_CLIENT_ID
+  description: AAD Client ID for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig
+- name: azure_tenant_id
+  env: AZURE_TENANT_ID
+  description: Azure AAD Tenant Id for Azure account authentication - used to authenticate to Azure to get KubeConfig 
+- name: azure_client_secret
+  env: AZURE_CLIENT_SECRET
+  description: AAD Client Secret for Azure account authentication - used for AKS Cluster SPN details and for authentication to azure to get KubeConfig
+- name: azure_subscription_id
+  env: AZURE_SUBSCRIPTION_ID
+  description: Azure Subscription Id used to set the subscription where the account has access to multiple subscriptions
+
 
 # Declare and optionally configure the mixins used by the bundle
 mixins:
@@ -53,7 +68,7 @@ install:
         - vm
         - create
       flags:
-        resource-group: democonfg
+        resource-group: demoConf
         name: myVM
         image: UbuntuLTS
         
@@ -74,7 +89,7 @@ uninstall:
         - vm
         - delete
       flags:
-        resource-group: democonfg
+        resource-group: demoConf
         name: myVM
 
 # Below is an example of how to define credentials
