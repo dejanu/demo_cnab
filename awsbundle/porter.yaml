@@ -1,9 +1,20 @@
-schemaVersion: 1.0.0-alpha.1
-name: aws-bucket
-version: 0.2.0
-description: "An example Porter AWS bundle that plays with buckets"
-registry: dejanualex
+# Version of the porter.yaml schema used by this file.
+schemaVersion: 1.0.0
 
+# Name of the bundle
+name: awsbundle
+
+# Version of the bundle. Change this each time you modify a published bundle.
+version: 1.0.0
+
+# Description of the bundle and what it does.
+description: "Bundle that can create a EC2 instance and S3 Buckets"
+
+# Registry where the bundle is published to by default
+registry: "dejanualex"
+
+
+# Declare and optionally configure the mixins used by the bundle
 mixins:
   - aws
 
@@ -14,20 +25,53 @@ credentials:
   env: AWS_ACCESS_KEY_ID
 
 parameters:
+- name: instanceid
+  type: string
+  default: defaultvalue
 - name: bucket
   type: string
-  default: porter-aws-mixin-test
+  applyTo:
+    - "bucket_install"
+    - "bucket_uninstall"
 
+
+# Install UBUNTU instance
 install:
+  - aws:
+      description: "Provision a VM"
+      service: ec2
+      operation: run-instances
+      flags:
+        image-id: ami-0ee23bfc74a881de5
+        instance-type: t2.micro
+        region: us-east-1
+      suppress-output: false
+
+# outputs:
+# - name: InstanceId
+#   description: "Instance ID to be used by Uninstall action"
+#   applyTo:
+#     - uninstall
+      
+uninstall:
+  - aws:
+      description: "Uninstall a VM"
+      service: ec2
+      operation: terminate-instances
+      flags:
+        instance-ids: "${ bundle.parameters.instanceid }"
+        region: us-east-1
+
+bucket_install:
   - aws:
       description: "Create Bucket"
       service: s3api
       operation: create-bucket
       flags:
-        bucket: "{{ bundle.parameters.bucket }}"
+        bucket: "${ bundle.parameters.bucket }"
         region: us-east-1
 
-list:
+bucket_list:
   - aws:
       description: "List Buckets"
       service: s3api
@@ -35,10 +79,10 @@ list:
       flags:
         query: "Buckets[].Name"
 
-uninstall:
+bucket_uninstall:
   - aws:
       description: "Delete Bucket"
       service: s3api
       operation: delete-bucket
       flags:
-        bucket: "{{ bundle.parameters.bucket }}"
+        bucket: "${ bundle.parameters.bucket }"
