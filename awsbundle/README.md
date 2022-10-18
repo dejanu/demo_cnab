@@ -4,7 +4,6 @@
 
 You need AWS Access Key Id for that create a new user unde IAM and add the desired policy e.g.  AmazonS3FullAccess
 
-
 * Actions
 
 ```bash

@@ -25,9 +25,17 @@ credentials:
   env: AWS_ACCESS_KEY_ID
 
 parameters:
+# - name: instanceid
+#   type: string
+#   default: defaultvalue
 - name: instanceid
-  type: string
-  default: defaultvalue
+  type: file
+  applyTo:
+      - uninstall
+  path: /home/azureuser/demo_cnab/awsbundle
+    source:
+      output: instanceid
+
 - name: bucket
   type: string
   applyTo:
@@ -38,21 +46,19 @@ parameters:
 # Install UBUNTU instance
 install:
   - aws:
-      description: "Provision a VM"
+      description: "Provision a VM in aws"
       service: ec2
       operation: run-instances
       flags:
         image-id: ami-0ee23bfc74a881de5
         instance-type: t2.micro
         region: us-east-1
-      suppress-output: false
-
-# outputs:
-# - name: InstanceId
-#   description: "Instance ID to be used by Uninstall action"
-#   applyTo:
-#     - uninstall
-      
+      outputs:
+        - name: instanceid
+          # cat outputaws.json | jq .Instances[0].InstanceId
+          jsonPath: "$.Instances[0].InstanceId"
+      #suppress-output: false
+        
 uninstall:
   - aws:
       description: "Uninstall a VM"
@@ -86,3 +92,11 @@ bucket_uninstall:
       operation: delete-bucket
       flags:
         bucket: "${ bundle.parameters.bucket }"
+
+outputs:
+  - name: instanceid
+    type: file
+    path: /home/azureuser/demo_cnab/awsbundle
+    applyTo:
+      - uninstall
+
