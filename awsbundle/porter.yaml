@@ -32,7 +32,7 @@ parameters:
   type: file
   applyTo:
       - uninstall
-  path: /home/azureuser/demo_cnab/awsbundle
+  path: /home/azureuser/aws.json
   source:
     output: instanceid
 
@@ -96,7 +96,7 @@ bucket_uninstall:
 outputs:
   - name: instanceid
     type: file
-    path: /home/azureuser/demo_cnab/awsbundle
+    path: /home/azureuser/aws.json
     applyTo:
       - uninstall
 
