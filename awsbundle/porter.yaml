@@ -25,16 +25,16 @@ credentials:
   env: AWS_ACCESS_KEY_ID
 
 parameters:
-# - name: instanceid
-#   type: string
-#   default: defaultvalue
 - name: instanceid
-  type: file
-  applyTo:
-      - uninstall
-  path: /home/azureuser/aws.json
-  source:
-    output: instanceid
+  type: string
+  default: defaultvalue
+# - name: instanceid
+#   type: file
+#   applyTo:
+#       - uninstall
+#   path: /home/azureuser/aws.json
+#   source:
+#     output: instanceid
 
 - name: bucket
   type: string
@@ -53,11 +53,12 @@ install:
         image-id: ami-0ee23bfc74a881de5
         instance-type: t2.micro
         region: us-east-1
-      outputs:
-        - name: instanceid
-          # cat outputaws.json | jq .Instances[0].InstanceId
-          jsonPath: "$.Instances[0].InstanceId"
-      #suppress-output: false
+      suppress-output: false
+      # outputs:
+      #   - name: instanceid
+      #     # cat outputaws.json | jq .Instances[0].InstanceId
+      #     jsonPath: "$.Instances[0].InstanceId"
+      
         
 uninstall:
   - aws:
@@ -66,6 +67,7 @@ uninstall:
       operation: terminate-instances
       flags:
         instance-ids: "${ bundle.parameters.instanceid }"
+        #instance-ids: "${ bundle.outputs.instanceid }"
         region: us-east-1
 
 bucket_install:
@@ -93,10 +95,10 @@ bucket_uninstall:
       flags:
         bucket: "${ bundle.parameters.bucket }"
 
-outputs:
-  - name: instanceid
-    type: file
-    path: /home/azureuser/aws.json
-    applyTo:
-      - uninstall
+# outputs:
+#   - name: instanceid
+#     type: file
+#     path: /home/azureuser/aws.json
+#     applyTo:
+#       - uninstall
 
