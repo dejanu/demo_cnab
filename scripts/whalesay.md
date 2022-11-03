@@ -13,7 +13,8 @@ porter create
 porter build
 
 # invoke bundle
-# unable to instantiate driver: extension "io.cnab.docker" is required but allow-docker-host-access was not enabled export PORTER_ALLOW_DOCKER_HOST_ACCESS=true
+# unable to instantiate driver: extension "io.cnab.docker" is required but allow-docker-host-access was not enabled 
+export PORTER_ALLOW_DOCKER_HOST_ACCESS=true
 porter install --allow-docker-host-access
 porter uninstall --allow-docker-host-access
 porter invoke --action=say --param msg="Devafterwork" --allow-docker-host-access

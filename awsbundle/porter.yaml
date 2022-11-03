@@ -1,0 +1,94 @@
+# Version of the porter.yaml schema used by this file.
+schemaVersion: 1.0.0
+
+# Name of the bundle
+name: awsbundle
+
+# Version of the bundle. Change this each time you modify a published bundle.
+version: 1.0.0
+
+# Description of the bundle and what it does.
+description: "Bundle that can create and delete EC2 instance and S3 Buckets"
+
+# Registry where the bundle is published to by default
+registry: "dejanualex"
+
+# Declare and optionally configure the mixins used by the bundle
+mixins:
+  - aws
+
+credentials:
+- name: AWS_SECRET_ACCESS_KEY
+  env: AWS_SECRET_ACCESS_KEY
+- name: AWS_ACCESS_KEY_ID
+  env: AWS_ACCESS_KEY_ID
+
+parameters:
+  - name: instanceid
+    type: string
+    applyTo:
+      - uninstall
+    source:
+      output: instanceid
+  - name: bucket
+    type: string
+    applyTo:
+      - "bucket_install"
+      - "bucket_uninstall"
+
+
+# Install UBUNTU instance
+install:
+  - aws:
+      description: "Provision a VM in aws"
+      service: ec2
+      operation: run-instances
+      flags:
+        image-id: ami-0ee23bfc74a881de5
+        instance-type: t2.micro
+        region: us-east-1
+      suppress-output: false
+      outputs:
+        - name: instanceid
+          # cat outputaws.json | jq .Instances[0].InstanceId
+          jsonPath: "$.Instances[0].InstanceId"
+              
+uninstall:
+  - aws:
+      description: "Uninstall a VM"
+      service: ec2
+      operation: terminate-instances
+      flags:
+        instance-ids: "${ bundle.parameters.instanceid }"
+        region: us-east-1
+
+bucket_install:
+  - aws:
+      description: "Create Bucket"
+      service: s3api
+      operation: create-bucket
+      flags:
+        bucket: "${ bundle.parameters.bucket }"
+        region: us-east-1
+
+bucket_list:
+  - aws:
+      description: "List Buckets"
+      service: s3api
+      operation: list-buckets
+      flags:
+        query: "Buckets[].Name"
+
+bucket_uninstall:
+  - aws:
+      description: "Delete Bucket"
+      service: s3api
+      operation: delete-bucket
+      flags:
+        bucket: "${ bundle.parameters.bucket }"
+
+outputs:
+  - name: instanceid
+    type: string
+    applyTo:
+      - install
