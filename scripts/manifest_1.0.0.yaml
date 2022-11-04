@@ -45,9 +45,6 @@ upgrade:
       run:
         image: "dejanualex/dockersay:1.0"
         rm: true
-        arguments:
-          - cowsay
-          - World 2.0
 
 say:
   - docker:
