@@ -82,15 +82,3 @@ export azure_client_secret="duFa5jmcV~nfXzOsw38ZrOADgWND_9bp4l"
 export azure_tenant_id="7f6211b1-7c5c-4277-8403-c0ccbd7f0408"
 ```
 
-
-## SRE DevTest subscription
-
-# 18929-01-SRE-syn01 - 18929-01-SRE-syn01
-export SubscriptionID="33412aad-8988-47c9-a0ae-0c95efad1811"
-# AppID
-export azure_client_id="eb0907ca-5b5f-48c2-aeb3-171b02b79703"
-# clientPassword
-export azure_client_secret="j3o7Q~Dhb.gjsm1ux6i-spvilveOn2GWmeRi8"
-# directoryID
-export azure_tenant_id="7f6211b1-7c5c-4277-8403-c0ccbd7f0408"
-
