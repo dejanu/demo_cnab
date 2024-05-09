@@ -1,5 +1,16 @@
-
 # Porter
+
+## Concepts
+
+* **bundle**: app artifact, client tools, configuration, and deployment logic packed together… more exactly is a standard packaging format for multi-component distributed applications
+
+* **installation**: an instance of a bundle installer to your system
+
+* **tag**: a reference to the bundle in an OCI registry that contains the registry, bundle name, and version e.g.: `myregistry.com/mybundle:v1.0`
+
+* **registry**: An OCI-compliant artifact store
+
+* So bundles besides including the tools and logic also have the deployment logs aka operations on the runtime-environment.
 
 ## Install porter:
 ```bash
@@ -16,29 +27,56 @@ export PATH=$PORTER_HOME:$PATH
 curl https://raw.githubusercontent.com/deislabs/cnab-azure-driver/main/install-in-azure-cloudshell.sh |/bin/bash
 source .bashrc
 ```
+## CLI CMDs:
+
+* client side
+
+```bash
+# install bundle
+porter install porter-hello --reference ghcr.io/getporter/examples/porter-hello:v0.2.0
+
+# list bundle installations
+porter list
+
+# see information about an installation
+porter show <installation_name>
+
+# see the description of the bundle, actions and parameters + dependecies and outputs of the bundle
+porter explain <installation_name>
+
+# bundle in an OCI registry specified by the given reference
+porter explain  --reference ghcr.io/getporter/examples/porter-hello:v0.2.0
+porter explain --reference registry/bundle:version
+
+# check params and credentials used by bundle
+porter explain --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest
+
+# upgrade bundle
+porter upgrade <installation_name>
+
+# uninstall bundle
+porter uninstall <installation_name>
+
+# The v1 prerelease of porter has fixed the behavior you are seeing. Otherwise if you are using v0.38 then you should expect to need two repositories per bundle (one for the bundle and one for the bundle’s container)
+porter --version
+```
+
 ## Create and build bundle:
 
 * Manifest specs: https://getporter.org/bundle/manifest/
 
 ```bash
-# Create a bundle. This generates a porter bundle in the current directory.
-porter create --help
+# create scaffolding for a new bundle in the current directory
+porter create
 
-# Builds the bundle in the current directory generates Dockerfile and a CNAB bundle.json, and then building the invocation image
+# create a bundle by taking a user-provided porter.yaml manifest and generate a CNAB bundle.json (in a newly created dir ./cnab that stores all the information e.g. Dockerfile bundle.json) and then building the invocation image
 porter build
 
-# The v1 prerelease of porter has fixed the behavior you are seeing. Otherwise if you are using v0.38 then you should expect to need two repositories per bundle (one for the bundle and one for the bundle’s container)
-porter --version
+Copying porter runtime ===>
+Copying mixins ===>
+Copying mixin exec ===>
+Building invocation image ===>
 
-# List bundles
-porter list
-
-# check bundle usage
-porter explain --reference registry/bundle:version
-
-
-# check params and credentials used by bundle
-porter explain --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest
 
 # if bundle requires credentials, you must delete/edit/generate/list/show a credentials file with the required values.
 porter credentials generate --reference cnabquickstarts.azurecr.io/porter/aks/bundle:latest
