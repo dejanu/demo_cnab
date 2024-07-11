@@ -41,7 +41,6 @@ say:
         image: "dejanualex/dockersay:1.0"
         rm: true
         arguments:
-          - cowsay
           - "{{ bundle.parameters.msg }}"
 
 uninstall:

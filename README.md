@@ -1,6 +1,6 @@
 ## Repo for demo
 
-_Every deplyment is a snowflake_
+_Every deployment is a snowflake_
 
 
 ### Links:

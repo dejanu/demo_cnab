@@ -1,0 +1,82 @@
+# This is the configuration for Porter
+# You must define steps for each action, but the rest is optional
+# See https://porter.sh/bundle/manifest/file-format/ for a description of all the allowed fields in this document.
+# See https://porter.sh/author-bundles for documentation on how to configure your bundle.
+# Uncomment out the sections below to take full advantage of what Porter can do!
+
+# Optional indicator of the resource type of this file
+schemaType: Bundle
+
+# Version of the porter.yaml schema used by this file.
+schemaVersion: 1.0.1
+
+# Name of the bundle
+name: porterdeal
+
+# Version of the bundle. Change this each time you modify a published bundle.
+version: 0.1.0
+
+# Description of the bundle and what it does.
+description: "Bundle that ilustrates a docker image app workflow"
+
+# Registry where the bundle is published to by default
+registry: "dejanualex"
+
+maintainers:
+  - name: dejanualex
+
+#  value is set to true, bundles are executed in a privileged container with the docker socket mounted.
+required:
+  - docker:
+      priviledged: true 
+
+parameters:
+  - name: msg
+    description: a message for the whales to speak
+    type: string
+    default: "waaaa"
+    applyTo:
+      - say
+
+# Declare and optionally configure the mixins used by the bundle
+mixins:
+  - docker
+
+# Define the steps that should execute when the bundle is installed
+install:
+  - docker:
+      description: "Install app"
+      run: 
+        image: "dejanualex/dockersay:2.0"
+        rm: true
+        arguments:
+          - Ive been installed
+  
+# Define the steps that should execute when the bundle is upgraded
+upgrade:
+  - docker:
+      description: "Upgrade app"
+      run: 
+        image: "dejanualex/dockersay:2.1"
+        rm: true
+        arguments:
+          - Ive been UGRAAADED
+
+# Define the steps that should execute when the bundle is uninstalled
+uninstall:
+  - docker:
+      description: "Upgrade app"
+      run: 
+        image: "dejanualex/dockersay:2.1"
+        rm: true
+        arguments:
+          - BYEE
+
+say:
+  - docker:
+      description: "Say something custom"
+      run: 
+        image: "dejanualex/dockersay:2.0"
+        rm: true
+        arguments:
+          - "{{ bundle.parameters.msg }}"

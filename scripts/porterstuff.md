@@ -12,6 +12,8 @@
 
 * So bundles besides including the tools and logic also have the deployment logs aka operations on the runtime-environment.
 
+* Porter doesn't know about the underlying tech he's relying on **MIXINS** (building blocks) which provide built-time info about tooling and how to build the invocation image.
+
 ## Install porter:
 ```bash
 # install porter
@@ -76,7 +78,6 @@ Copying porter runtime ===>
 Copying mixins ===>
 Copying mixin exec ===>
 Building invocation image ===>
-
 
 # if bundle requires credentials, you must delete/edit/generate/list/show a credentials file with the required values.
 porter credentials generate --reference cnabquickstarts.azurecr.io/porter/aks/bundle:latest
