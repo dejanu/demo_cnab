@@ -6,6 +6,15 @@ porter upgrade --allow-docker-host-access
 porter invoke --action=say --allow-docker-host-access
 porter invoke --action=say --param msg=cmoon --allow-docker-host-access
 porter uninstall  --allow-docker-host-access
+
+# Builds the bundle in the current directory by generating a Dockerfile and a CNAB bundle.json, and then building the invocation image.
+porter build
+
+# publish the bundle by pushing the invocation image and bundle to a registry
+porter publish
+
+# use the bundle from registry
+porter install --reference dejanualex/porterdeal:v0.1.0
 ```
 
 
