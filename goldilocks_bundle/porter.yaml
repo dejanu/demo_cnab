@@ -32,7 +32,7 @@ required:
 
 parameters:
   - name: msg
-    description: a message for the whales to speak
+    description: a message for the whale to speak
     type: string
     default: "waaaa"
     applyTo:
@@ -62,6 +62,15 @@ upgrade:
         arguments:
           - Ive been UGRAAADED
 
+say:
+  - docker:
+      description: "Say something custom"
+      run: 
+        image: "dejanualex/dockersay:2.0"
+        rm: true
+        arguments:
+          - "${{ bundle.parameters.msg }}"
+
 # Define the steps that should execute when the bundle is uninstalled
 uninstall:
   - docker:
@@ -71,12 +80,3 @@ uninstall:
         rm: true
         arguments:
           - BYEE
-
-say:
-  - docker:
-      description: "Say something custom"
-      run: 
-        image: "dejanualex/dockersay:2.0"
-        rm: true
-        arguments:
-          - "{{ bundle.parameters.msg }}"

@@ -1,6 +1,14 @@
-# My First Bundle
+# Bundle usage
 
-This is an empty bundle that porter has created to get you started!
+```bash
+porter install --allow-docker-host-access
+porter upgrade --allow-docker-host-access
+porter invoke --action=say --allow-docker-host-access
+porter invoke --action=say --param msg=cmoon --allow-docker-host-access
+porter uninstall  --allow-docker-host-access
+```
+
+
 
 # Contents
 
