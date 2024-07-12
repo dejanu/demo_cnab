@@ -14,10 +14,10 @@ schemaVersion: 1.0.1
 name: porterdeal
 
 # Version of the bundle. Change this each time you modify a published bundle.
-version: 0.1.0
+version: 1.0.0
 
 # Description of the bundle and what it does.
-description: "Bundle that ilustrates a docker image app workflow"
+description: "Bundle that ilustrates the lifecycle of a app: install, upgrade ;), uninstall and a custom behaviour "
 
 # Registry where the bundle is published to by default
 registry: "dejanualex"
@@ -60,7 +60,7 @@ upgrade:
         image: "dejanualex/dockersay:2.1"
         rm: true
         arguments:
-          - Ive been UGRAAADED
+          - Ive been UPGRAAADED
 
 say:
   - docker:

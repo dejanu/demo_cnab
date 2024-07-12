@@ -14,7 +14,8 @@ porter build
 porter publish
 
 # use the bundle from registry
-porter install --reference dejanualex/porterdeal:v0.1.0
+porter install --reference dejanualex/porterdeal:v1.0.0
+porter explain --reference dejanualex/porterdeal:v1.0.0
 ```
 
 
