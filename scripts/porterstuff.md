@@ -159,3 +159,41 @@ porter uninstall --reference getporter/whalesay:v0.1.2 --allow-docker-host-acces
 - [Porter boiler plate](https://github.com/getporter/examples/)
 
 
+```bash
+
+porter publish
+docker.io/dejanualex/porterdeal
+
+CNAB specification, is a standard packaging format for multi-component distributed applications. 
+Spec here: https://github.com/cnabio/cnab-spec/blob/main/100-CNAB.md
+
+Porter vanilla
+
+With Porter you can package your application artifact, client tools, 
+configuration and deployment logic together as a versioned bundle that you can distribute, and then install with a single command.
+
+Porter uses the docker driver as the default runtime for executing a bundle’s invocation image, but an alternate driver may be supplied via ‘–driver/-d’ or the PORTER_RUNTIME_DRIVER environment variable. 
+
+## commands 101
+porter install
+porter upgrade
+porter uninstall
+porter invoke --action=<INSERT_CUSTOM_ACTION>
+
+## commands for state
+# Installation - An instance of a bundle installed to your system.
+#  shows bundle metadata such as the bundle installation name, creation and modification times, the last action and its status.
+porter list
+porter installations list
+
+# for a specific installation
+porter show <INSERT_INSTALLATION_NAME>
+
+
+## distributing bundles 
+# you need registry/tag/reference   An OCI compliant artifact store.
+porter publish --registry myregistry.com/myorg
+
+# understanding a bundle
+porter explain --reference dejanualex/porterdeal:v1.0.0 -ojson | jq -r "{customActions}"
+```
