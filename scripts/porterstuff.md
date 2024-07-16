@@ -125,11 +125,19 @@ az aks get-credentials --resource-group <resourge_group_name> --name <cluster-na
 
 ## Mixins and Plugins:
 
-* MIXINS are the building blocks that you use when authoring bundles:
+* MIXINS are the building blocks that you use when authoring bundles.
+* MIXINS are adapters that makes it easier to work with existing tools within a bundle.
+
+* Search [mixins](https://porter.sh/mixins/), in the community [index](https://cdn.porter.sh/mixins/index.json )
+```bash
+# list all mixins
+porter mixin search -ojson | jq .[].name
+
+# search helm mixin
+porter search helm
+```
 
 ```bash
-# porter mixins install NAME [flags]
-# mixins command: build, install, upgrade
 porter mixins install docker
 porter mixin install terraform
 porter mixins list
