@@ -1,10 +1,16 @@
 # Porter
 
+
+* With Porter you can package your application artifact, client tools, 
+configuration and deployment logic together as a versioned bundle that you can distribute, and then install with a single command.
+
+* Porter uses the docker driver as the default runtime for executing a bundle’s invocation image, but an alternate driver may be supplied via `–driver/-d` or the `PORTER_RUNTIME_DRIVER` environment variable. 
+
 ## Concepts
 
 * **bundle**: app artifact, client tools, configuration, and deployment logic packed together… more exactly is a standard packaging format for multi-component distributed applications
 
-* **installation**: an instance of a bundle installer to your system
+* **installation**: an instance of a bundle installer to your system.
 
 * **tag**: a reference to the bundle in an OCI registry that contains the registry, bundle name, and version e.g.: `myregistry.com/mybundle:v1.0`
 
@@ -13,6 +19,8 @@
 * So bundles besides including the tools and logic also have the deployment logs aka operations on the runtime-environment.
 
 * Porter doesn't know about the underlying tech he's relying on **MIXINS** (building blocks) which provide built-time info about tooling and how to build the invocation image.
+
+* CNAB specification, is a standard packaging format for multi-component distributed applications. Spec [here](https://github.com/cnabio/cnab-spec/blob/main/100-CNAB.md)
 
 ## Install porter:
 ```bash
@@ -34,6 +42,13 @@ source .bashrc
 * client side
 
 ```bash
+
+## commands 101
+porter install
+porter upgrade
+porter uninstall
+porter invoke --action=<INSERT_CUSTOM_ACTION>
+
 # install bundle
 porter install porter-hello --reference ghcr.io/getporter/examples/porter-hello:v0.2.0
 
@@ -49,7 +64,8 @@ porter explain <installation_name>
 # bundle in an OCI registry specified by the given reference
 porter explain  --reference ghcr.io/getporter/examples/porter-hello:v0.2.0
 porter explain --reference registry/bundle:version
-
+# understanding a bundle
+porter explain --reference dejanualex/porterdeal:v1.0.0 -ojson | jq -r "{customActions}"
 # check params and credentials used by bundle
 porter explain --tag cnabquickstarts.azurecr.io/porter/aks/bundle:latest
 
@@ -58,6 +74,15 @@ porter upgrade <installation_name>
 
 # uninstall bundle
 porter uninstall <installation_name>
+
+# Shows bundle metadata such as the bundle installation name, creation and modification times, the last action and its status.
+porter list
+porter installations list
+# for a specific installation
+porter show <INSERT_INSTALLATION_NAME>
+
+# distributing bundles: you need registry/tag/reference   An OCI compliant artifact store.
+porter publish --registry myregistry.com/myorg
 
 # The v1 prerelease of porter has fixed the behavior you are seeing. Otherwise if you are using v0.38 then you should expect to need two repositories per bundle (one for the bundle and one for the bundle’s container)
 porter --version
@@ -157,43 +182,3 @@ porter uninstall --reference getporter/whalesay:v0.1.2 --allow-docker-host-acces
 - [Tanzu CNAB](https://tanzu.vmware.com/content/blog/cloud-native-application-bundles-a-simple-way-to-install-software-on-kubernetes-or-any-other-runtime)
 - [CNAB_Webinar](https://www.youtube.com/watch?v=1FGMrv_xfqY&t=8s)
 - [Porter boiler plate](https://github.com/getporter/examples/)
-
-
-```bash
-
-porter publish
-docker.io/dejanualex/porterdeal
-
-CNAB specification, is a standard packaging format for multi-component distributed applications. 
-Spec here: https://github.com/cnabio/cnab-spec/blob/main/100-CNAB.md
-
-Porter vanilla
-
-With Porter you can package your application artifact, client tools, 
-configuration and deployment logic together as a versioned bundle that you can distribute, and then install with a single command.
-
-Porter uses the docker driver as the default runtime for executing a bundle’s invocation image, but an alternate driver may be supplied via ‘–driver/-d’ or the PORTER_RUNTIME_DRIVER environment variable. 
-
-## commands 101
-porter install
-porter upgrade
-porter uninstall
-porter invoke --action=<INSERT_CUSTOM_ACTION>
-
-## commands for state
-# Installation - An instance of a bundle installed to your system.
-#  shows bundle metadata such as the bundle installation name, creation and modification times, the last action and its status.
-porter list
-porter installations list
-
-# for a specific installation
-porter show <INSERT_INSTALLATION_NAME>
-
-
-## distributing bundles 
-# you need registry/tag/reference   An OCI compliant artifact store.
-porter publish --registry myregistry.com/myorg
-
-# understanding a bundle
-porter explain --reference dejanualex/porterdeal:v1.0.0 -ojson | jq -r "{customActions}"
-```
