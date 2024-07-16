@@ -1,6 +1,8 @@
 # goldilocks  Bundle
 
-WIP to check [kubernetes mixin](https://porter.sh/mixins/kubernetes/#examples) and [helm](https://porter.sh/mixins/helm3/)
+WIP to check [kubernetes mixin](https://porter.sh/mixins/kubernetes/#examples) and [usage](https://porter.sh/design/kubernetes-mixin/#overview) and [helm](https://porter.sh/mixins/helm3/)
+
+The Kubernetes Mixin provides bundle authors with the ability to apply and delete Kubernetes manifests. The mixin will leverage `kubectl`, similar to how the Helm mixin utilizes the `helm`` command line tool.
 
 ### Mixins
 
@@ -27,7 +29,6 @@ porter uninstall -c kubeconfig --verbosity=true
 * Requirements:
     - Metrics Server collects resource metrics from Kubelets and exposes them in Kubernetes apiserver through Metrics API for use by HPA and VPA. Metrics Server is meant only for autoscaling purposes
 ```bash
-
 # check if metrics server is enabled
 kubectl get apiservices | grep metrics.k8s.io
 kubectl get --raw /apis/metrics.k8s.io/v1beta1 | jq

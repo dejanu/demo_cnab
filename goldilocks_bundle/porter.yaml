@@ -1,9 +1,3 @@
-# This is the configuration for Porter
-# You must define steps for each action, but the rest is optional
-# See https://porter.sh/bundle/manifest/file-format/ for a description of all the allowed fields in this document.
-# See https://porter.sh/author-bundles for documentation on how to configure your bundle.
-# Uncomment out the sections below to take full advantage of what Porter can do!
-
 # Optional indicator of the resource type of this file
 schemaType: Bundle
 
@@ -16,10 +10,9 @@ name: porter-gold
 # Version of the bundle. Change this each time you modify a published bundle.
 version: 1.0.0
 
-# Description of the bundle and what it does.
-description: "Bundle for installing goldilocks  "
+description: "Bundle for installing Goldilocks utility that can help you identify a starting point for resource requests and limits"
 
-# Registry where the bundle is published to by default
+# Registry where the bundle is published 
 registry: "dejanualex"
 
 #CHECK THIS https://porter.sh/docs/introduction/concepts-and-components/intro-credentials/
@@ -32,8 +25,8 @@ mixins:
   - kubernetes
   - helm3:
       repositories:
-        stable:
-          url: https://charts.fairwinds.com/stable #helm3 repo add stable https://charts.fairwinds.com/stable 
+        fairwinds-stable:
+          url: https://charts.fairwinds.com/stable #helm repo add fairwinds-stable https://charts.fairwinds.com/stable
 
 install:
   - kubernetes:
@@ -49,11 +42,11 @@ install:
           # -ojsonpath={.metadata.name}
           jsonPath: "$.metadata0.name"
   - helm3:
-      description: "Install chart"
+      description: "Install fairwinds goldilocks chart"
       name: goldilocks # RELEASE NAME
       chart: fairwinds-stable/goldilocks
+      version: 8.0.2
       namespace: goldilocks
-
 
 upgrade:
   - kubernetes:
@@ -63,13 +56,19 @@ upgrade:
       wait: true
 
 uninstall:
- - kubernetes:
-      description: "Uninstall Hello App"
-      manifests:
-        - cnab/app/manifests/hello
-      wait: true
+- helm3:
+      description: "Uninstall fairwinds goldilocks charts"
+      namespace: ${ bundle.outputs.namespacename }
+      chart: fairwinds-stable/goldilocks
+      version: 8.0.2
+      releases:
+        - goldilocks # RELEASE NAME
 
 outputs:
     - name: namespacename
+      description: Namespace for goldilocks resources
+      type: string
       resourceType: namespace
       resourceName: goldilocks
+      applyTo:
+        - install
