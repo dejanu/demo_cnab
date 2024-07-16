@@ -1,0 +1,75 @@
+# This is the configuration for Porter
+# You must define steps for each action, but the rest is optional
+# See https://porter.sh/bundle/manifest/file-format/ for a description of all the allowed fields in this document.
+# See https://porter.sh/author-bundles for documentation on how to configure your bundle.
+# Uncomment out the sections below to take full advantage of what Porter can do!
+
+# Optional indicator of the resource type of this file
+schemaType: Bundle
+
+# Version of the porter.yaml schema used by this file.
+schemaVersion: 1.0.1
+
+# Name of the bundle
+name: porter-gold
+
+# Version of the bundle. Change this each time you modify a published bundle.
+version: 1.0.0
+
+# Description of the bundle and what it does.
+description: "Bundle for installing goldilocks  "
+
+# Registry where the bundle is published to by default
+registry: "dejanualex"
+
+#CHECK THIS https://porter.sh/docs/introduction/concepts-and-components/intro-credentials/
+credentials:
+  - name: kubeconfig
+    path: /home/nonroot/.kube/config
+
+# Declare and optionally configure the mixins used by the bundle
+mixins:
+  - kubernetes
+  - helm3:
+      repositories:
+        stable:
+          url: https://charts.fairwinds.com/stable #helm3 repo add stable https://charts.fairwinds.com/stable 
+
+install:
+  - kubernetes:
+      description: "Create namespace"
+      manifests:
+        - cnab/app/manifests/namespace
+      wait: true
+      surpress-output: false
+      outputs:
+        - name: namespacename
+          resourceType: namespace
+          resourceName: goldilocks
+          # -ojsonpath={.metadata.name}
+          jsonPath: "$.metadata0.name"
+  - helm3:
+      description: "Install chart"
+      name: goldilocks # RELEASE NAME
+      chart: fairwinds-stable/goldilocks
+      namespace: goldilocks
+
+
+upgrade:
+  - kubernetes:
+      description: "Upgrade Hello App"
+      manifests:
+        - cnab/app/manifests/hello
+      wait: true
+
+uninstall:
+ - kubernetes:
+      description: "Uninstall Hello App"
+      manifests:
+        - cnab/app/manifests/hello
+      wait: true
+
+outputs:
+    - name: namespacename
+      resourceType: namespace
+      resourceName: goldilocks
