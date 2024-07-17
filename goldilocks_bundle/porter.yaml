@@ -37,10 +37,10 @@ install:
       surpress-output: false
       outputs:
         - name: namespacename
-          resourceType: namespace
+          resourceType: namespaces
           resourceName: goldilocks
           # -ojsonpath={.metadata.name}
-          jsonPath: "$.metadata0.name"
+          jsonPath: "$.metadata.name"
   - helm3:
       description: "Install fairwinds goldilocks chart"
       name: goldilocks # RELEASE NAME
@@ -58,7 +58,7 @@ upgrade:
 uninstall:
 - helm3:
       description: "Uninstall fairwinds goldilocks charts"
-      namespace: ${ bundle.outputs.namespacename }
+      namespace: goldilocks #"${ bundle.outputs.namespacename }"
       chart: fairwinds-stable/goldilocks
       version: 8.0.2
       releases:
@@ -68,7 +68,5 @@ outputs:
     - name: namespacename
       description: Namespace for goldilocks resources
       type: string
-      resourceType: namespace
-      resourceName: goldilocks
       applyTo:
         - install
