@@ -63,6 +63,11 @@ uninstall:
       version: 8.0.2
       releases:
         - goldilocks # RELEASE NAME
+- kubernetes:
+      description: "Remove goldilocks namespace"
+      manifests:
+        - cnab/app/manifests/namespace
+      wait: true
 
 outputs:
     - name: namespacename
