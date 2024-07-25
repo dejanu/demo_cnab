@@ -33,3 +33,5 @@ porter uninstall -c kubeconfig --verbosity=true
 kubectl get apiservices | grep metrics.k8s.io
 kubectl get --raw /apis/metrics.k8s.io/v1beta1 | jq
 ```
+
+* Expose dashboard: `kubectl -n goldilocks port-forward svc/goldilocks-dashboard 8080:80`
