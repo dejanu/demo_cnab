@@ -20,6 +20,15 @@ credentials:
   - name: kubeconfig
     path: /home/nonroot/.kube/config
 
+parameters:
+  - name: goldilocks-namespace
+    type: string
+    default: "goldilocks"
+    applyTo:
+      - install
+      - deployapp
+      - uninstall
+
 # Declare and optionally configure the mixins used by the bundle
 mixins:
   - kubernetes
@@ -29,49 +38,38 @@ mixins:
           url: https://charts.fairwinds.com/stable #helm repo add fairwinds-stable https://charts.fairwinds.com/stable
 
 install:
-  - kubernetes:
-      description: "Create namespace"
-      manifests:
-        - cnab/app/manifests/namespace
-      wait: true
-      surpress-output: false
-      outputs:
-        - name: namespacename
-          resourceType: namespaces
-          resourceName: goldilocks
-          # -ojsonpath={.metadata.name}
-          jsonPath: "$.metadata.name"
   - helm3:
       description: "Install fairwinds goldilocks chart"
       name: goldilocks # RELEASE NAME
       chart: fairwinds-stable/goldilocks
       version: 8.0.2
-      namespace: goldilocks
+      namespace: ${ bundle.parameters.goldilocks-namespace }
 
-upgrade:
+deployapp:
   - kubernetes:
-      description: "Upgrade Hello App"
+      description: "Deploy Hello App"
       manifests:
         - cnab/app/manifests/hello
       wait: true
+      surpress-output: false
+      outputs:
+        - name: deployment-name
+          resourceType: deployment
+          resourceName: webapp
+          namespace: default #${ bundle.parameters.goldilocks-namespace }
+          jsonPath: "$.metadata.name"
 
 uninstall:
 - helm3:
       description: "Uninstall fairwinds goldilocks charts"
-      namespace: goldilocks #"${ bundle.outputs.namespacename }"
+      namespace: ${ bundle.parameters.goldilocks-namespace }
       chart: fairwinds-stable/goldilocks
       version: 8.0.2
       releases:
         - goldilocks # RELEASE NAME
 - kubernetes:
-      description: "Remove goldilocks namespace"
+      description: "Remove hello app"
+      namespace: ${ bundle.parameters.goldilocks-namespace }
       manifests:
-        - cnab/app/manifests/namespace
+        - cnab/app/manifests/hello
       wait: true
-
-outputs:
-    - name: namespacename
-      description: Namespace for goldilocks resources
-      type: string
-      applyTo:
-        - install

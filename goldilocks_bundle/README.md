@@ -17,9 +17,10 @@ porter mixin install helm3 --feed-url https://mchorfa.github.io/porter-helm3/ato
 # Before running a bundle the user must first create a credential set i.e. kubeconfig 
 porter credentials generate kubeconfig
 
-# deploy app
+# actions
 porter install -c kubeconfig --verbosity=debug
 porter uninstall -c kubeconfig --verbosity=true
+porter invoke --action=deployapp -c kubeconfig --param goldilocks-namespace=goldilocks
 ```
 
 ### Goldilocks
