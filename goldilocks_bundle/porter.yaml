@@ -48,6 +48,7 @@ install:
 deployapp:
   - kubernetes:
       description: "Deploy Hello App"
+      namespace: ${ bundle.parameters.goldilocks-namespace }
       manifests:
         - cnab/app/manifests/hello
       wait: true
@@ -56,7 +57,7 @@ deployapp:
         - name: deployment-name
           resourceType: deployment
           resourceName: webapp
-          namespace: default #${ bundle.parameters.goldilocks-namespace }
+          namespace: ${ bundle.parameters.goldilocks-namespace }
           jsonPath: "$.metadata.name"
 
 uninstall:
