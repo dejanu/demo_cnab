@@ -31,10 +31,15 @@ porter uninstall -c kubeconfig --verbosity=true --param goldilocks-namespace=gol
 
 * Requirements:
     - Metrics Server collects resource metrics from Kubelets and exposes them in Kubernetes apiserver through Metrics API for use by HPA and VPA. Metrics Server is meant only for autoscaling purposes
+
+    - The VPA automatically adjusts the CPU and memory requests and limits for pods based on their usage over time.
+    - The VPA must be deployed in each namespace you wish to monitor
+
 ```bash
 # check if metrics server is enabled
 kubectl get apiservices | grep metrics.k8s.io
-kubectl get --raw /apis/metrics.k8s.io/v1beta1 | jq
+kubectl get --raw /apis/metrics.k8s.io/v1beta1 | jq .
 ```
 
 * Expose dashboard: `kubectl -n goldilocks port-forward svc/goldilocks-dashboard 8080:80`
+* Label namespace: `kubectl label ns NAMESPACE goldilocks.fairwinds.com/enabled=true`
