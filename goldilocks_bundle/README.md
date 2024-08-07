@@ -18,7 +18,7 @@ porter mixin install helm3 --feed-url https://mchorfa.github.io/porter-helm3/ato
 porter credentials generate kubeconfig
 
 # actions
-porter install -c kubeconfig --verbosity=debug --param goldilocks-namespace=goldilocks
+porter install -c kubeconfig --verbosity=debug 
 
 porter invoke --action=deployapp -c kubeconfig --param goldilocks-namespace=goldilocks
 

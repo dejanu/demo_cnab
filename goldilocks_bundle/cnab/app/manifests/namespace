@@ -1,4 +1,6 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: goldilocks
+  name: gold-demo
+  labels:
+    goldilocks.fairwinds.com/enabled: "true" # for goldilock

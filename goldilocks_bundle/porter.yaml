@@ -10,7 +10,7 @@ name: porter-gold
 # Version of the bundle. Change this each time you modify a published bundle.
 version: 1.0.0
 
-description: "Bundle for installing Goldilocks utility that can help you identify a starting point for resource requests and limits"
+description: "Bundle for installing Goldilocks utility (controller + dashboard) that can help you identify a starting point for resource requests and limits"
 
 # Registry where the bundle is published 
 registry: "dejanualex"
@@ -23,10 +23,10 @@ credentials:
 parameters:
   - name: goldilocks-namespace
     type: string
+    description: "Namespace in which the resources will be created/removed"
     default: "goldilocks"
     applyTo:
       - install
-      - deployapp
       - uninstall
 
 # Declare and optionally configure the mixins used by the bundle
@@ -47,18 +47,19 @@ install:
 
 deployapp:
   - kubernetes:
-      description: "Deploy Hello App"
-      namespace: ${ bundle.parameters.goldilocks-namespace }
+      description: "Create namespace gold-demo..."
+      manifests:
+        - cnab/app/manifests/namespace
+      wait: true
+      surpress-output: false
+   
+  - kubernetes:
+      description: "Deploy Hello App in gold-demo namespace"
+      namespace: gold-demo
       manifests:
         - cnab/app/manifests/hello
       wait: true
       surpress-output: false
-      outputs:
-        - name: deployment-name
-          resourceType: deployment
-          resourceName: webapp
-          namespace: ${ bundle.parameters.goldilocks-namespace }
-          jsonPath: "$.metadata.name"
 
 uninstall:
 - helm3:
@@ -68,9 +69,16 @@ uninstall:
       version: 8.0.2
       releases:
         - goldilocks # RELEASE NAME
+
 - kubernetes:
       description: "Remove hello app"
-      namespace: ${ bundle.parameters.goldilocks-namespace }
       manifests:
         - cnab/app/manifests/hello
       wait: true
+
+- kubernetes:
+      description: "Remove gold-demo namespace"
+      manifests:
+        - cnab/app/manifests/namespace
+      wait: true
+
