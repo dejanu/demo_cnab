@@ -1,8 +1,14 @@
+# CNAB
+
+* Bundles include the tools and the deployment logic (aka operations on the runtime-environment)
+* The bundles can contain different kinds of installation technologies. This aspect allows things like Helm Charts, Terraform templates, and Ansible Playbooks to coexist in the same package. Once built, the packages are self-contained and portable; they can be installed from a USB stick. The packages are cryptographically signed to ensure they originate from the party they claim.
+
+* The core of CNAB is a file called `bundle.json` (that defines the contens of the [bundle](https://learn.microsoft.com/en-us/dotnet/architecture/cloud-native/application-bundles))
+* A CNAB bundle MUST have at least one invocation image, more about `bundle.json` canonical json form [here](https://github.com/cnabio/cnab-spec/blob/main/101-bundle-json.md)
+
 # Porter
 
-
-* With Porter you can package your application artifact, client tools, 
-configuration and deployment logic together as a versioned bundle that you can distribute, and then install with a single command.
+* With Porter you can package your application artifact, client tools, configuration and deployment logic together as a versioned bundle that you can distribute, and then install with a single command.
 
 * Porter uses the docker driver as the default runtime for executing a bundle’s invocation image, but an alternate driver may be supplied via `–driver/-d` or the `PORTER_RUNTIME_DRIVER` environment variable. 
 
@@ -15,8 +21,6 @@ configuration and deployment logic together as a versioned bundle that you can d
 * **tag**: a reference to the bundle in an OCI registry that contains the registry, bundle name, and version e.g.: `myregistry.com/mybundle:v1.0`
 
 * **registry**: An OCI-compliant artifact store
-
-* So bundles besides including the tools and logic also have the deployment logs aka operations on the runtime-environment.
 
 * Porter doesn't know about the underlying tech he's relying on **MIXINS** (building blocks) which provide built-time info about tooling and how to build the invocation image.
 
