@@ -5,7 +5,7 @@ schemaType: Bundle
 schemaVersion: 1.0.1
 
 # Name of the bundle
-name: porter-gold
+name: synergy-installer/porter-gold
 
 # Version of the bundle. Change this each time you modify a published bundle.
 version: 1.0.0
@@ -13,7 +13,7 @@ version: 1.0.0
 description: "Bundle for installing Goldilocks utility (controller + dashboard) that can help you identify a starting point for resource requests and limits"
 
 # Registry where the bundle is published 
-registry: "dejanualex"
+registry: "registry.admin.dev.phi.projects.systematic-synergy.io"
 
 #CHECK THIS https://porter.sh/docs/introduction/concepts-and-components/intro-credentials/
 credentials:

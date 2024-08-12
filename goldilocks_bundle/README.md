@@ -20,7 +20,7 @@ porter credentials generate kubeconfig
 # actions
 porter install -c kubeconfig --verbosity=debug 
 
-porter invoke --action=deployapp -c kubeconfig --param goldilocks-namespace=goldilocks
+porter invoke --action=deployapp -c kubeconfig --verbosity=debug
 
 porter uninstall -c kubeconfig --verbosity=true --param goldilocks-namespace=goldilocks
 ```
@@ -43,3 +43,14 @@ kubectl get --raw /apis/metrics.k8s.io/v1beta1 | jq .
 
 * Expose dashboard: `kubectl -n goldilocks port-forward svc/goldilocks-dashboard 8080:80`
 * Label namespace: `kubectl label ns NAMESPACE goldilocks.fairwinds.com/enabled=true`
+
+### Publish the bundle
+
+```bash
+porter build --dir /path/to/porter.yaml
+
+porter publish docker.io/dejanualex/porter-gold:v1.0.0
+
+# generate gzipped tar archive containing the bundle + invocation image + referenced images
+porter archive goldilocks-v1.0.0.tgz --reference dejanualex/porter-gold:v1.0.0
+```
