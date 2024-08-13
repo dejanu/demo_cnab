@@ -56,8 +56,9 @@ az acr login --name dejanualex.azurecr.io
 docker tag mcr.microsoft.com/hello-world <mycontainerregistry>.azurecr.io/hello-world:v1
 docker tag dejanualex/aks:v0.1.4 dejanualex.azurecr.io/aks:v0.1.4
 
-# create cluster
-az aks create -n <resourge_group_name> -g <cluster-name>
+# create AKS cluster
+az aks create -g <resourge_group_name> -n <cluster-name> --generate-ssh-keys
+az aks delete -g <resourge_group_name> -n <cluster-name> --yes
 
 # get k8s cluster credentials .kube/config
 az aks get-credentials --resource-group <resourge_group_name> --name <cluster-name>
@@ -85,3 +86,14 @@ export azure_client_secret=""
 export azure_tenant_id=""
 ```
 
+To access resources that are secured by a Microsoft Entra tenant, the entity that requires access must be represented by a security principal. 
+This requirement is true for both users (user principal) and applications (service principal).
+
+There are three types of service accounts native to Microsoft Entra ID: 
+Managed identities (Managed identities can't be used for services hosted outside of Azure)
+service principals (recomended for services not hosted in Azure, otherwise go to managed identities)
+user-based service accounts 
+
+
+A service principal is the local representation of an application object in a single Microsoft Entra tenant.
+There are two mechanisms for authentication using service principals: client certificates and client secrets.
