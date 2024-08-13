@@ -16,15 +16,12 @@ name: demo_aks
 # Version of the bundle. Change this each time you modify a published bundle.
 version: 0.1.0
 
-# Description of the bundle and what it does.
+# az aks create -g sre-hackathon -n demoaks --node-count 1
 description: "Bundle for creating an AKS cluster"
 
 # Registry where the bundle is published to by default
 registry: "localhost:5000"
 
-# If you want to customize the Dockerfile in use, uncomment the line below and update the referenced file. 
-# See https://porter.sh/bundle/custom-dockerfile/
-#dockerfile: template.Dockerfile
 credentials:
 - name: azure_client_id
   env: AZURE_CLIENT_ID
@@ -39,17 +36,63 @@ credentials:
   env: AZURE_SUBSCRIPTION_ID
   description: Azure Subscription Id used to set the subscription where the account has access to multiple subscriptions
 
-# Declare and optionally configure the mixins used by the bundle
-mixins:
-  - az
+parameters:
+  - name: rg_name
+    type: string
+    description: "Resource group in which AKS will be created"
+    default: "demorg"
+    applyTo:
+      - install
+      - uninstall
+      
+  - name: aks_name
+    type: string
+    description: "AKS name"
+    default: "demoaks"
+    applyTo:
+      - install
+      - uninstall
+  
 
-# Define the steps that should execute when the bundle is installed
+# https://learn.microsoft.com/en-us/cli/azure/reference-index?view=azure-cli-latest
+mixins:
+  - exec
+  - az:
+      extensions:
+      - aks-preview
+
+# create AKS cluster
 install:
-  - exec:
-      description: "Install Hello World"
-      command: ./helpers.sh
+  - az:
+      description: "Azure CLI login"
       arguments:
-        - install
+        - login
+      flags:
+        service-principal:
+        username: ${ bundle.credentials.azure_client_id }
+        password: ${ bundle.credentials.azure_client_secret }
+        tenant: ${ bundle.credentials.azure_tenant_id }
+
+  - az:
+      description: "Azure set subscription Id"
+      arguments:
+        - "account"
+        - "set"
+      flags:
+        subscription: ${ bundle.credentials.azure_subscription_id }
+
+
+  - az:
+      description: "Create AKS cluster"
+      arguments:
+        - "aks"
+        - "create"
+      flags:
+        resource-group: ${ bundle.parameters.rg_name }
+        name: ${ bundle.parameters.aks_name }
+        node-count: 1 
+        generate-ssh-key: 
+
 
 # Define the steps that should execute when the bundle is upgraded
 upgrade:
@@ -61,34 +104,29 @@ upgrade:
 
 # Define the steps that should execute when the bundle is uninstalled
 uninstall:
-  - exec:
-      description: "Uninstall Hello World"
-      command: ./helpers.sh
+  - az:
+      description: "Azure CLI login"
       arguments:
-        - uninstall
+        - login
+      flags:
+        service-principal:
+        username: ${ bundle.credentials.azure_client_id }
+        password: ${ bundle.credentials.azure_client_secret }
+        tenant: ${ bundle.credentials.azure_tenant_id }
 
-# Below is an example of how to define credentials
-# See https://porter.sh/author-bundles/#credentials
-#credentials:
-#  - name: kubeconfig
-#    path: /home/nonroot/.kube/config
-#  - name: username
-#    env: USERNAME
-
-# Below is an example of how to define parameters
-# See https://porter.sh/author-bundles/#parameters
-#parameters:
-#  - name: mysql_user
-#    type: string
-#    default: wordpress
-
-# Below is an example of how to define state variables
-# for the terraform mixin. This allows you to track
-# terraform state using the bundle instead of configuring
-# a remote backend.
-# See https://porter.sh/author-bundles/#state
-#state:
-#  - name: tfstate
-#    path: terraform/terraform.tfstate
-#  - name: tfvars
-#    path: terraform/terraform.tfvars.json
+  - az:
+      description: "Azure set subscription Id"
+      arguments:
+        - "account"
+        - "set"
+      flags:
+        subscription: ${ bundle.credentials.azure_subscription_id }
+  - az:
+      description: "Delete AKS cluster"
+      arguments:
+        - "aks"
+        - "delete"
+      flags:
+        resource-group:  ${ bundle.parameters.rg_name }
+        name: ${ bundle.parameters.aks_name }
+        yes: 

@@ -56,6 +56,9 @@ az acr login --name dejanualex.azurecr.io
 docker tag mcr.microsoft.com/hello-world <mycontainerregistry>.azurecr.io/hello-world:v1
 docker tag dejanualex/aks:v0.1.4 dejanualex.azurecr.io/aks:v0.1.4
 
+# create cluster
+az aks create -n <resourge_group_name> -g <cluster-name>
+
 # get k8s cluster credentials .kube/config
 az aks get-credentials --resource-group <resourge_group_name> --name <cluster-name>
 
