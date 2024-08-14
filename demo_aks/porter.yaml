@@ -16,11 +16,9 @@ name: demo_aks
 # Version of the bundle. Change this each time you modify a published bundle.
 version: 0.1.0
 
-# az aks create -g sre-hackathon -n demoaks --node-count 1
 description: "Bundle for creating an AKS cluster"
 
-# Registry where the bundle is published to by default
-registry: "localhost:5000"
+registry: "dejanualex"
 
 credentials:
 - name: azure_client_id
@@ -43,6 +41,7 @@ parameters:
     default: "demorg"
     applyTo:
       - install
+      - upgrade
       - uninstall
       
   - name: aks_name
@@ -51,12 +50,11 @@ parameters:
     default: "demoaks"
     applyTo:
       - install
+      - upgrade
       - uninstall
   
-
 # https://learn.microsoft.com/en-us/cli/azure/reference-index?view=azure-cli-latest
 mixins:
-  - exec
   - az:
       extensions:
       - aks-preview
@@ -81,7 +79,6 @@ install:
       flags:
         subscription: ${ bundle.credentials.azure_subscription_id }
 
-
   - az:
       description: "Create AKS cluster"
       arguments:
@@ -90,17 +87,38 @@ install:
       flags:
         resource-group: ${ bundle.parameters.rg_name }
         name: ${ bundle.parameters.aks_name }
-        node-count: 1 
+        node-count: 1
+        kubernetes-version: 1.28
         generate-ssh-key: 
-
 
 # Define the steps that should execute when the bundle is upgraded
 upgrade:
-  - exec:
-      description: "World 2.0"
-      command: ./helpers.sh
+  - az:
+      description: "Azure CLI login"
       arguments:
-        - upgrade
+        - login
+      flags:
+        service-principal:
+        username: ${ bundle.credentials.azure_client_id }
+        password: ${ bundle.credentials.azure_client_secret }
+        tenant: ${ bundle.credentials.azure_tenant_id }
+  - az:
+      description: "Azure set subscription Id"
+      arguments:
+        - "account"
+        - "set"
+      flags:
+        subscription: ${ bundle.credentials.azure_subscription_id }
+  - az:
+      description: "Upgrade AKS to 1.29"
+      arguments:
+        - "aks"
+        - "upgrade"
+      flags:
+        resource-group: ${ bundle.parameters.rg_name }
+        name: ${ bundle.parameters.aks_name }
+        kubernetes-version: 1.29
+        yes: 
 
 # Define the steps that should execute when the bundle is uninstalled
 uninstall:
@@ -127,6 +145,6 @@ uninstall:
         - "aks"
         - "delete"
       flags:
-        resource-group:  ${ bundle.parameters.rg_name }
+        resource-group: ${ bundle.parameters.rg_name }
         name: ${ bundle.parameters.aks_name }
         yes: 
