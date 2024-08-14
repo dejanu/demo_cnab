@@ -2,7 +2,7 @@
 
 ## Azure
 
-🖱️ [Azure portal](https://portal.azure.com/#home)
+✔️ [Azure portal](https://portal.azure.com/#home)
 
 ✔️ [Check Azure status](https://status.azure.com/en-us/status)
 
@@ -66,17 +66,9 @@ az aks get-credentials --resource-group <resourge_group_name> --name <cluster-na
 # get list of supported Azure Locations: westus,westus2,eastus,centralus northeurope,westeurope
 az aks get-versions --location westeurope -o table
 ```
----
+
 
 ```bash
-# demoSVP
-{
-  "appId": "",
-  "name": "demoSVP",
-  "password": "",
-  "tenant": ""
-}
-
 export SubscriptionID=""
 # AppID
 export azure_client_id=""
@@ -93,7 +85,6 @@ There are three types of service accounts native to Microsoft Entra ID:
 Managed identities (Managed identities can't be used for services hosted outside of Azure)
 service principals (recomended for services not hosted in Azure, otherwise go to managed identities)
 user-based service accounts 
-
 
 A service principal is the local representation of an application object in a single Microsoft Entra tenant.
 There are two mechanisms for authentication using service principals: client certificates and client secrets.
