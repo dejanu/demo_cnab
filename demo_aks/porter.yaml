@@ -1,10 +1,3 @@
-# This is the configuration for Porter
-# You must define steps for each action, but the rest is optional
-# See https://porter.sh/bundle/manifest/file-format/ for a description of all the allowed fields in this document.
-# See https://porter.sh/author-bundles for documentation on how to configure your bundle.
-# Uncomment out the sections below to take full advantage of what Porter can do!
-
-# Optional indicator of the resource type of this file
 schemaType: Bundle
 
 # Version of the porter.yaml schema used by this file.
@@ -14,7 +7,7 @@ schemaVersion: 1.0.1
 name: demo_aks
 
 # Version of the bundle. Change this each time you modify a published bundle.
-version: 0.1.0
+version: 1.0.1
 
 description: "Bundle for creating an AKS cluster"
 
@@ -43,6 +36,7 @@ parameters:
       - install
       - upgrade
       - uninstall
+      - merge
       
   - name: aks_name
     type: string
@@ -52,9 +46,12 @@ parameters:
       - install
       - upgrade
       - uninstall
-  
+      - merge
+
+
 # https://learn.microsoft.com/en-us/cli/azure/reference-index?view=azure-cli-latest
 mixins:
+  - kubernetes
   - az:
       extensions:
       - aks-preview
@@ -88,7 +85,7 @@ install:
         resource-group: ${ bundle.parameters.rg_name }
         name: ${ bundle.parameters.aks_name }
         node-count: 1
-        kubernetes-version: 1.28
+        kubernetes-version: 1.28.12
         generate-ssh-key: 
 
 # Define the steps that should execute when the bundle is upgraded
@@ -110,14 +107,14 @@ upgrade:
       flags:
         subscription: ${ bundle.credentials.azure_subscription_id }
   - az:
-      description: "Upgrade AKS to 1.29"
+      description: "Upgrade AKS to 1.29.7"
       arguments:
         - "aks"
         - "upgrade"
       flags:
         resource-group: ${ bundle.parameters.rg_name }
         name: ${ bundle.parameters.aks_name }
-        kubernetes-version: 1.29
+        kubernetes-version: 1.29.7
         yes: 
 
 # Define the steps that should execute when the bundle is uninstalled
@@ -148,3 +145,42 @@ uninstall:
         resource-group: ${ bundle.parameters.rg_name }
         name: ${ bundle.parameters.aks_name }
         yes: 
+
+merge:
+  - az:
+      description: "Azure login"
+      arguments:
+        - login
+      flags:
+        service-principal:
+        username: ${ bundle.credentials.azure_client_id }
+        password: ${ bundle.credentials.azure_client_secret }
+        tenant: ${ bundle.credentials.azure_tenant_id }
+  - az:
+      description: "Azure set subscription Id"
+      arguments:
+        - "account"
+        - "set"
+      flags:
+        subscription: ${ bundle.credentials.azure_subscription_id }
+  - az:
+      description: "Get access creds for AKS"
+      arguments:
+        - "aks"
+        - "get-credentials"
+      flags:
+        resource-group: ${ bundle.parameters.rg_name }
+        name: ${ bundle.parameters.aks_name }
+        context: akscluster
+        file: "newconf"
+      suppress-output: false
+      outputs:
+        - name: kubeconfig
+          path: newconf
+
+# serialize with: porter installations output show newconf > 
+outputs:
+  - name: newconf
+    type: file
+    path: newconf
+      

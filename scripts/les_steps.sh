@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# source setup with env vars
-source az_setup.sh
-
 # how to use the bundle
 porter explain --reference cnabquickstarts.azurecr.io/porter/aks/bundle:latest
 
