@@ -75,19 +75,31 @@ install:
         - "set"
       flags:
         subscription: ${ bundle.credentials.azure_subscription_id }
-
+  
   - az:
-      description: "Create AKS cluster"
+      description: "Get access creds for AKS"
       arguments:
         - "aks"
-        - "create"
+        - "get-credentials"
       flags:
         resource-group: ${ bundle.parameters.rg_name }
         name: ${ bundle.parameters.aks_name }
-        node-count: 1
-        kubernetes-version: 1.28.12
-        generate-ssh-key: 
+  
+  - kubernetes:
+      description: "Deploy nginx pod"
+      manifests:
+        - cnab/app/nginx
+      wait: true
+      surpress-output: false
+      outputs:
+        - name: pod_name
+          resourceType: "pod"
+          resourceName: "basic-nginx"
+          namespace: "default"
+          jsonPath: "metadata.name"
+  
 
+ 
 # Define the steps that should execute when the bundle is upgraded
 upgrade:
   - az:
@@ -179,8 +191,8 @@ merge:
           path: newconf
 
 # serialize with: porter installations output show newconf > 
-outputs:
-  - name: newconf
-    type: file
-    path: newconf
+# outputs:
+#   - name: newconf
+#     type: file
+#     path: newconf
       

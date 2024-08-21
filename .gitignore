@@ -1,3 +1,4 @@
 localbundle/
 *.pem
 creds
+demo_aks/creds

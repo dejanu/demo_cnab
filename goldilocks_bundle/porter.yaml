@@ -12,8 +12,8 @@ version: 1.0.0
 
 description: "Bundle for installing Goldilocks utility (controller + dashboard) that can help you identify a starting point for resource requests and limits"
 
-# Registry where the bundle is published 
-registry: "registry.admin.dev.phi.projects.systematic-synergy.io"
+# Registry where the bundle is published: registry.admin.dev.phi.projects.systematic-synergy.io
+registry: "dejanualex"
 
 #CHECK THIS https://porter.sh/docs/introduction/concepts-and-components/intro-credentials/
 credentials:
@@ -39,6 +39,7 @@ mixins:
 
 install:
   - helm3:
+      # chart on local helm uninstall goldilocks -n goldilocks ./goldilocks-9.0.1.tgz
       description: "Install fairwinds goldilocks chart"
       name: goldilocks # RELEASE NAME
       chart: fairwinds-stable/goldilocks
