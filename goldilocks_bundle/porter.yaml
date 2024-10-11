@@ -32,17 +32,19 @@ parameters:
 # Declare and optionally configure the mixins used by the bundle
 mixins:
   - kubernetes
-  - helm3:
-      repositories:
-        fairwinds-stable:
-          url: https://charts.fairwinds.com/stable #helm repo add fairwinds-stable https://charts.fairwinds.com/stable
+  - helm3
+  # - helm3:
+  #     repositories:
+  #       fairwinds-stable:
+  #         url: https://charts.fairwinds.com/stable #helm repo add fairwinds-stable https://charts.fairwinds.com/stable
 
 install:
   - helm3:
-      # chart on local helm uninstall goldilocks -n goldilocks ./goldilocks-9.0.1.tgz
+      # chart on local helm install goldilocks -n goldilocks ./goldilocks-9.0.1.tgz
       description: "Install fairwinds goldilocks chart"
       name: goldilocks # RELEASE NAME
-      chart: fairwinds-stable/goldilocks
+      # chart: fairwinds-stable/goldilocks
+      chart: cnab/goldilocks-9.0.1.tgz
       version: 8.0.2
       namespace: ${ bundle.parameters.goldilocks-namespace }
 
@@ -64,12 +66,20 @@ deployapp:
 
 uninstall:
 - helm3:
-      description: "Uninstall fairwinds goldilocks charts"
+      description: "Uninstall fairwinds goldilocks charts" # helm uninstall RELEASE_NAME -n NAMESPACE
       namespace: ${ bundle.parameters.goldilocks-namespace }
-      chart: fairwinds-stable/goldilocks
-      version: 8.0.2
       releases:
         - goldilocks # RELEASE NAME
+      wait: true
+      noHooks: true
+
+# - helm3:
+#       description: "Uninstall fairwinds goldilocks charts"
+#       namespace: ${ bundle.parameters.goldilocks-namespace }
+#       chart: fairwinds-stable/goldilocks
+#       version: 8.0.2
+#       releases:
+#         - goldilocks # RELEASE NAME
 
 - kubernetes:
       description: "Remove hello app"
