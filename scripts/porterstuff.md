@@ -146,6 +146,8 @@ porter mixins install docker
 porter mixin install terraform
 porter mixins list
 ```
+* The functionality declared in each step of the bundle is actually provided by components called mixins.
+* More about mixin [dev a mixing](https://porter.sh/docs/development/dev-a-mixin/) and [what is a mixin](https://porter.sh/docs/how-to-guides/work-with-mixins/#what-is-a-mixin)
 
 * PLUGINS extend the porter client, by reimplementing porter's default functionality 
 ```bash
