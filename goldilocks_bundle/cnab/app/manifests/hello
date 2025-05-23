@@ -6,15 +6,15 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: goapp
+      app: nginx
   minReadySeconds: 5
   template:
     metadata:
       labels:
-        app: goapp
+        app: nginx
     spec:
       containers:
-      - name: goapp
-        image: dejanualex/gohello:1.0
+      - name: nginx
+        image: nginx:stable-perl
         ports:
-        - containerPort: 8888
+        - containerPort: 80
