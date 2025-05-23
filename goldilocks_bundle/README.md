@@ -23,6 +23,10 @@ porter install -c kubeconfig --verbosity=debug
 porter invoke --action=deployapp -c kubeconfig --verbosity=debug
 
 porter uninstall -c kubeconfig --verbosity=true --param goldilocks-namespace=goldilocks
+
+# distribute the bundle (docker login registry.admin.cops.systematic-ops.com)
+porter publish 
+
 ```
 
 ### Goldilocks
